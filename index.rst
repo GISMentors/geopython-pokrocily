@@ -24,6 +24,12 @@
 .. toctree::
    :maxdepth: 2
 
+   uvod
+   vektorova_data
+   rastrova_data
+   postgis
+   django
+   ogc
    qgis/novy-plugin
 
 *******
