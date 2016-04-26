@@ -1,5 +1,6 @@
+***********************
 Práce s rastrovými daty
-=======================
+***********************
 
 Rastrová data mohou být v porovnání s vektorovými daty často řádově
 objemnější. Tomu je třeba přizpůsobit práci s nimi. Rastrová data jsou

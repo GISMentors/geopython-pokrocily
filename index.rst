@@ -29,7 +29,7 @@
    postgis/index
    django/index
    ogc/index
-   qgis/novy-plugin
+   qgis/index
 
 *******
 Dodatky

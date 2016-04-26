@@ -1,5 +1,6 @@
+************************
 Práce s vektorovými daty
-========================
+************************
 
 Pro práci s vektorovými daty se v jazyce Python tradičně používá
 knihovna `GDAL <http://gdal.org>`_ (resp. její čast označovaná jako
