@@ -188,6 +188,36 @@ class SaveViews:
         self.dirname = QFileDialog.getExistingDirectory(self.dlg, "Select directory ","/home")
         self.dlg.lineEdit.setText(self.dirname)
 
+    def save_views(self, layers):
+        selectedLayerIndex = self.dlg.comboBox.currentIndex()
+        selectedLayerName = self.dlg.comboBox.currentText()
+        selectedLayer = layers[selectedLayerIndex]
+
+        frame_count = selectedLayer.dataProvider().featureCount()
+
+        if frame_count <= 1:
+            print "Layer must have more than one feature!"
+        else:                
+            for feature in range(int(frame_count)):
+                selection = [int(feature)]
+                selectedLayer.setSelectedFeatures(selection)
+                self.iface.mapCanvas().setSelectionColor(QColor("transparent"));
+                box = selectedLayer.boundingBoxOfSelected()
+                self.iface.mapCanvas().setExtent(box)
+                pixmap = QPixmap(self.iface.mapCanvas().mapSettings().outputSize().width(),
+                                 self.iface.mapCanvas().mapSettings().outputSize().height())
+                mapfile = self.dirname + "/" + selectedLayerName + "_" + format(feature, "03d") + ".png"
+                self.iface.mapCanvas().saveAsImage(mapfile, pixmap)
+                selectedLayer.removeSelection()
+
+            # save also full extend of vector layer                       
+            canvas = self.iface.mapCanvas()
+            canvas.setExtent(selectedLayer.extent())
+            pixmap = QPixmap(self.iface.mapCanvas().mapSettings().outputSize().width(),
+                                 self.iface.mapCanvas().mapSettings().outputSize().height())
+            mapfile = self.dirname + "/" + selectedLayerName + "_full" + ".png"
+            self.iface.mapCanvas().saveAsImage(mapfile, pixmap)
+
     def run(self,qgis):
         """Run method that performs all the real work"""
         # populate the Combo Box with the layers loaded in QGIS
@@ -205,34 +235,4 @@ class SaveViews:
         # See if OK was pressed
         if result:
             # save graphical output for every row in attribute table
-            selectedLayerIndex = self.dlg.comboBox.currentIndex()
-            selectedLayerName = self.dlg.comboBox.currentText()
-            selectedLayer = layers[selectedLayerIndex]
-            frame_count = 0
-
-            for feature in selectedLayer.getFeatures():
-                if frame_count < selectedLayer.dataProvider().featureCount():
-                    frame_count = selectedLayer.dataProvider().featureCount()
-
-            if frame_count <= 1:
-                print "Layer must have more than one feature!"
-            else:                
-                for feature in range(int(frame_count)):
-                    selection = [int(feature)]
-                    selectedLayer.setSelectedFeatures(selection)
-                    self.iface.mapCanvas().setSelectionColor(QColor("transparent"));
-                    box = selectedLayer.boundingBoxOfSelected()
-                    self.iface.mapCanvas().setExtent(box)
-                    pixmap = QPixmap(self.iface.mapCanvas().mapSettings().outputSize().width(),
-                                     self.iface.mapCanvas().mapSettings().outputSize().height())
-                    mapfile = self.dirname + "/" + selectedLayerName + "_" + format(feature, "03d") + ".png"
-                    self.iface.mapCanvas().saveAsImage(mapfile, pixmap)
-                    selectedLayer.removeSelection()
-
-                # save also full extend of vector layer                       
-                canvas = self.iface.mapCanvas()
-                canvas.setExtent(selectedLayer.extent())
-                pixmap = QPixmap(self.iface.mapCanvas().mapSettings().outputSize().width(),
-                                     self.iface.mapCanvas().mapSettings().outputSize().height())
-                mapfile = self.dirname + "/" + selectedLayerName + "_full" + ".png"
-                self.iface.mapCanvas().saveAsImage(mapfile, pixmap)
+            self.save_views(layers)

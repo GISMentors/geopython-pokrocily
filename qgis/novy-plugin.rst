@@ -357,43 +357,42 @@ uložíme, plugin restartujeme a vyzkoušíme (:num:`#np-skuska-1`).
 
 Posledním krokem je změnit to, aby se po kliknutí na tlačítko `Save
 all` opravdu provedlo, co chceme. Začneme importem `QColor` a
-`QPixmap`. Potom vyhledáme metodu ``run()`` a najdeme řádek obsahující
-`pass`. Ten nahradíme následujícím kódem.
+`QPixmap`. Vytvoříme novou metodu ``save_views()``. Potom vyhledáme
+metodu ``run()`` a najdeme řádek obsahující ``pass``. Ten nahradíme
+volání této funkce.
 
 .. code::
 
-	# save graphical output for every row in attribute table
-        selectedLayerIndex = self.dlg.comboBox.currentIndex()
-        selectedLayerName = self.dlg.comboBox.currentText()
-        selectedLayer = layers[selectedLayerIndex]
-        frame_count = 0
+       def save_views(self, layers):
+            # save graphical output for every row in attribute table
+            selectedLayerIndex = self.dlg.comboBox.currentIndex()
+            selectedLayerName = self.dlg.comboBox.currentText()
+            selectedLayer = layers[selectedLayerIndex]
 
-        for feature in selectedLayer.getFeatures():
-            if frame_count < selectedLayer.dataProvider().featureCount():
-                frame_count = selectedLayer.dataProvider().featureCount()
-    
-        if frame_count <= 1:
-            print "Layer must have more than one feature!"
-        else:               
-            for feature in range(int(frame_count)):
-                selection = [int(feature)]
-                selectedLayer.setSelectedFeatures(selection)
-                self.iface.mapCanvas().setSelectionColor(QColor("transparent"));
-                box = selectedLayer.boundingBoxOfSelected()
-                self.iface.mapCanvas().setExtent(box)
+            frame_count = selectedLayer.dataProvider().featureCount()
+
+            if frame_count <= 1:
+                print "Layer must have more than one feature!"
+            else:               
+                for feature in range(int(frame_count)):
+                    selection = [int(feature)]
+                    selectedLayer.setSelectedFeatures(selection)
+                    self.iface.mapCanvas().setSelectionColor(QColor("transparent"));
+                    box = selectedLayer.boundingBoxOfSelected()
+                    self.iface.mapCanvas().setExtent(box)
+                    pixmap = QPixmap(self.iface.mapCanvas().mapSettings().outputSize().width(),
+                    self.iface.mapCanvas().mapSettings().outputSize().height())
+                    mapfile = self.dirname + "/" + selectedLayerName + "_" + format(feature, "03d") + ".png"
+                    self.iface.mapCanvas().saveAsImage(mapfile, pixmap)
+                    selectedLayer.removeSelection()
+
+                # save also full extend of vector layer                            
+                canvas = self.iface.mapCanvas()
+                canvas.setExtent(selectedLayer.extent())
                 pixmap = QPixmap(self.iface.mapCanvas().mapSettings().outputSize().width(),
                 self.iface.mapCanvas().mapSettings().outputSize().height())
-                mapfile = self.dirname + "/" + selectedLayerName + "_" + format(feature, "03d") + ".png"
-                self.iface.mapCanvas().saveAsImage(mapfile, pixmap)
-                selectedLayer.removeSelection()
-
-            # save also full extend of vector layer                            
-            canvas = self.iface.mapCanvas()
-            canvas.setExtent(selectedLayer.extent())
-            pixmap = QPixmap(self.iface.mapCanvas().mapSettings().outputSize().width(),
-            self.iface.mapCanvas().mapSettings().outputSize().height())
-            mapfile = self.dirname + "/" + selectedLayerName + "_full" + ".png"
-            self.iface.mapCanvas().saveAsImage(mapfile, pixmap) 
+                mapfile = self.dirname + "/" + selectedLayerName + "_full" + ".png"
+                self.iface.mapCanvas().saveAsImage(mapfile, pixmap) 
 
 .. _np-run-code:
 
