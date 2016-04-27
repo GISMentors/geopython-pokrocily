@@ -1,6 +1,6 @@
-.. |box_yes| image:: ../images/icon/checkbox.png
+.. |box_yes| image:: ../qgis/images/checkbox.png
    :width: 1.5em
-.. |npicon| image:: ../images/icon/np_plugin_icon.png
+.. |npicon| image:: ../qgis/images/np_plugin_icon.png
    :width: 1.5em
 
 
@@ -9,7 +9,7 @@ Vytvoření zásuvného modulu
 
 Zásuvné moduly, tzv. :wikipedia-en:`pluginy
 <Plug-in_(computing)>` představují
-doplňkové moduly. Jejich úlohou je rozšiřovat funkčnost a širokou
+doplňkové nástroje. Jejich úlohou je rozšiřovat funkčnost a širokou
 škálu použití QGIS. Úvod do této problematiky je součástí
 :skoleni:`školení QGIS pro začátečníky
 <qgis-zacatecnik/ruzne/qgis_pluginy.html>`, kde se kromě jiného píše,
@@ -17,16 +17,22 @@ doplňkové moduly. Jejich úlohou je rozšiřovat funkčnost a širokou
 napsaných v programovacím jazyku :wikipedia:`Python` či
 :wikipedia:`C++`.
 
-V mnohých případech však může nastat situace, kdy ani jeden z
+V mnohých případech však může nastat situace, kdy žádný z
 existujících zásuvných modulů nesplňuje funkcionalitu jakou bychom
-právě potřebovali.  Úroveň rozšiřovaní funkcionality QGIS se liší. Za
+právě potřebovali.  Úroveň rozšiřovaní funkcionality QGIS je různorodá. Za
 pomoci jazyka Python může jít o přidání jednoduchého tlačítka až po
 tvorbu sofistikovaných nástrojů.
 
-V následující části načrtneme návod jak si vlastní plugin vytvořit 
-a postup následně odzkoušíme na jednoduchém reálném příkladě. Vytvoříme zásuvný 
-modul s názvem *Save Views*, který exportuje grafický výstup ve formě `*.png` 
-pro každý prvek ve vybrané vektorové vrstvě do zvoleného adresáře. 
+V následující části načrtneme návod jak si vlastní plugin vytvořit a
+postup následně odzkoušíme na jednoduchém reálném příkladě. Vytvoříme
+zásuvný modul s názvem *Save Views*, který exportuje grafický výstup
+ve formě obrázků ve formátu PNG pro každý prvek ve vybrané vektorové
+vrstvě do zvoleného výstupního adresáře.
+
+**Užitečné odkazy**
+
+* `PyQGIS Developer Cookbook <http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook>`_
+* `QGIS API <http://qgis.org/api>`_
 
 Potřebné nástroje
 =================
@@ -37,35 +43,36 @@ I. Qt Creator
 Pro tvorbu nového pluginu budeme potřebovat :wikipedia-en:`Qt
 Creator`, což je aplikace vývojového frameworku s názvem
 :wikipedia:`Qt <Qt (knihovna)>`.  Tento nástroj, resp. jeho součást
-**Qt Designer** využijeme pro tvorbu uživatelského rozhraní nového
+*Qt Designer*, využijeme pro tvorbu uživatelského rozhraní nového
 modulu.
 
 II. Python rozhraní pro Qt
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Vzhledem k tomu, že budeme vyvíjet plugin v programovacím jazyku
-Python, musíme nainstalovat Python rozhraní, angl. *python bindings*
-pro Qt. Pro tvorbu zásuvných modulů je potřeba ``pyrcc4``.
+Python, musíme nainstalovat Python rozhraní, angl. Python
+:wikipedia-en:`bindings <Language binding>` pro Qt. Pro tvorbu zásuvných
+modulů je potřeba ``pyrcc4``.
 
-.. note:: Způsob instalace se v tomto případě liší podle platformy.  Na
-          Windows je možné stáhnout instalátor `OSGeo4W
+.. note:: Způsob instalace se v tomto případě liší podle platformy.
+          Na Windows je možné stáhnout instalátor `OSGeo4W
           <http://trac.osgeo.org/osgeo4w/>`_, vybrat volbu *Express
           Desktop* a nainstalovat balík *QGIS*. Po instalaci je
           nástroj ``pyrcc4`` dostupný v rámci *OSGeo4W Shell*.  Na Mac
-          OS je potřeba nainstalovat `Homebrew <http://brew.sh>`_
-          správce balíčků a nainstalovat balíček *PyQt*.  V případě
-          Linuxu je důležitý jde o balíček *python-qt4*. V Ubuntu jej
+          OS je potřeba nainstalovat správce balíčků `Homebrew
+          <http://brew.sh>`_ a doinstalovat balíček *PyQt*.  V případě
+          Linuxu jde o balíček *python-qt4*. V Ubuntu jej
           např. nainstalujeme příkazem ``sudo apt-get install
           python-qt4``.
 
 III. Textový editor
 ^^^^^^^^^^^^^^^^^^^
 
-Vhodný textový editor anebo integrované vývojové prostředí (IDE) jsou
-pro psaní zdrojového kódu důležité. Mezi oblíbené editory patří
-například *Sublime Text, Vim, Emacs, Notepad++, TextWrangler, IDLE,
-Atom, Aquamacs, GNU Nano, Kate, gedit*, prostredie *Spyder* či
-*PyCharm* a podobně.
+Vhodný textový editor anebo integrované vývojové prostředí
+(:wikipedia:`IDE <Vývojové prostředí>`) jsou pro psaní zdrojového kódu
+důležité. Mezi oblíbené editory patří například *Sublime Text, Vim,
+Emacs, Notepad++, TextWrangler, IDLE, Atom, Aquamacs, GNU Nano, Kate,
+gedit*, prostředí *Spyder* či *PyCharm* a podobně.
 
 IV. Zásuvný modul Plugin Builder
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -80,8 +87,10 @@ V. Zásuvný modul Reloader plugin
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    
 Díky tomuto pluginu nemusíme při každé změně kódu restartovat
-QGIS. Změny se projeví po jeho spuštění. Nainstalujeme jej klasickým
-způsobem pomocí správce zásuvných modulů v QGISu.
+QGIS. Změny se projeví ihned po jeho spuštění. Nainstalujeme jej
+klasickým způsobem pomocí správce zásuvných modulů v QGISu (pro jeho
+instalaci je potřeba povolit *experimentální* moduly v nastavení
+správce).
 
 Pět základních kroků pro vytvoření pluginu Save Views
 =====================================================
@@ -106,22 +115,17 @@ Implementace funkcionality pluginu v rámci Python kódu
 1. Vytvoření šablony nového pluginu
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Po spuštění zásuvného modulu na tvorbu pluginů se objeví dialogové
+Po spuštění zásuvného modulu pro tvorbu pluginů se objeví dialogové
 okno, kde zadáme základní údaje o našem novém nástroji,
 viz. :num:`#plugin-builder`.  Na další stránce průvodce vyplníme
-podrobné informace o našem nástroji *About*. V třetí části vybereme
+podrobné informace o našem nástroji (*About*). V třetí části vybereme
 šablonu uživatelského prostředí, v našem případě `Tool button with
-dialog`, zadáme text, který se bude zobrazovat v menu a nakonec
+dialog`, zadáme text, který se bude zobrazovat v menu. Nakonec
 vybereme, pod kterou položkou v menu náš nový plugin uživatel najde,
 například `Vector`.  Na dalších stránkách průvodce je možné ovlivnit
 vytvoření dalších podpůrných souborů, vyplnit povinné a volitelné
 informace, například domovskou stránku, repositář modulu se zdrojovými
 kódy, označit nástroj jako experimentální a podobně.
-
-Následně se objeví okno, kde je potřebné zadat cestu, kde bude adresář
-nástroje uložen (:num:`#plugin-dir`). Tento adresář uložte to
-`.qgis2/python/plugins` umístěného v domovském adresáři
-uživatele. Jeho umístění se liší v závislosti na platformě.
 
 .. _plugin-builder:
 
@@ -129,6 +133,12 @@ uživatele. Jeho umístění se liší v závislosti na platformě.
    :class: small
 
    Dialogové okno zásuvného modulu na tvorbu pluginů.
+
+Následně se objeví okno, kde je potřebné zadat cestu do kterého
+adresář s nástrojem uložíme (:num:`#plugin-dir`). Obvykle to je
+:file:`.qgis2/python/plugins` umístěný v domovském adresáři uživatele. Jeho
+umístění se liší v závislosti na platformě.
+
 
 .. _plugin-dir:
 
@@ -145,18 +155,19 @@ Results` obsahující souhrnné informace.
 2. Kompilace
 ^^^^^^^^^^^^
 
-Přepneme se do adresáře, kde byl plugin SaveViews vytvořen, například
-v Linuxu pomocí příkazu ``cd .qgis2/python/plugins/SaveViews`` a
-spustíme ``make``. Tento příkaz kompiluje tzv. *Resource Collection
-File* (`*.qrc`). Jde vlastně o spuštění výše uvedeného `pyrcc4`.
+Přepneme se do adresáře, kde byl plugin SaveViews vytvořen. Pod
+Linuxem například pomocí příkazu ``cd
+.qgis2/python/plugins/SaveViews`` a spustíme ``make``. Tento příkaz
+kompiluje tzv. *Resource Collection File* (`*.qrc`). Jde vlastně o
+spuštění výše uvedeného ``pyrcc4``.
 
 .. _krok3:
 
 3. Načtení nového pluginu ve správci zásuvných modulů
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-V této fázi by měl být v QGISu :menuselection:`Zásuvné moduly -->
-Spravovat a instalovat zásuvné moduly` viditelný i plugin *Save
+Po restartu QGISu by měl být v sekci :menuselection:`Zásuvné moduly
+--> Spravovat a instalovat zásuvné moduly` viditelný i plugin *Save
 Views*. Zaškrtnutím |box_yes| se objeví jeho ikona |npicon| v hlavní
 liště tak jako jsme zadali, tj. v sekci `Vector`.
 (:num:`#plugin-menu`).
@@ -202,13 +213,14 @@ hranice České republiky.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Vzhled a elementy dialogového okna pluginu budeme upravovat v programu
-Qt Creator. V hlavní liště zvolíme :menuselection:`File --> Open File
-or Project` a otevřeme soubor `*.ui`. V našem případě
-`save_views_dialog_base.ui`, který najdeme v adresáři vytvořeného
-pluginu. Na :num:`#qtcreator` je znázorněné prozatím prázdné okno s
-objekty `SaveViewsDialogBase` a `button_box`. Pomocí `drag-and-drop`
-je možné z levého panelu přidávat další objekty a jejich názvy a
-vlastnosti měnit v pravé části okna aplikace *Qt Creator*.
+*Qt Creator / Designer*. V hlavní liště zvolíme :menuselection:`File
+--> Open File or Project` a otevřeme soubor s příponou `*.ui`. V našem
+případě `save_views_dialog_base.ui`, který najdeme v adresáři
+vytvořeného pluginu. Na :num:`#qtcreator` je znázorněné prozatím
+prázdné okno s objekty (tzv. widgety) `SaveViewsDialogBase` a
+`button_box`. Pomocí metody `drag-and-drop` je možné z levého panelu přidávat
+další objekty a jejich názvy a vlastnosti měnit v pravé části okna
+aplikace *Qt Creator / Designer*.
 
 .. _qtcreator:
 
@@ -217,10 +229,10 @@ vlastnosti měnit v pravé části okna aplikace *Qt Creator*.
 
    Dialogové okno vytvářeného pluginu v prostředí aplikace *Qt Creator*.
 
-První dva objekty, které přidáme jsou tzv. *Combo Box* z kategorie
-*Input Widgets* a tzv. *Label* z kategorie *Display Widgets*. V pravém
-panelu předvolený text objektu *label* změníme na `Select a layer`
-(:num:`#qtlabel`).
+První dva objekty (widgety), které přidáme budou tzv. *Combo Box* z
+kategorie *Input Widgets* a *Label* z kategorie *Display
+Widgets*. V pravém panelu předvolený text objektu *label* změníme na
+`Select a layer` (:num:`#qtlabel`).
 
 .. _qtlabel:
 
@@ -229,11 +241,11 @@ panelu předvolený text objektu *label* změníme na `Select a layer`
 
    Editace objektů dialogového okna.
 
-Po uložení souboru `*.ui` :menuselection:`File --> Save
-"save_views_dialog_base.ui"` přejdeme do prostředí QGIS, kde použijeme
-plugin *Plugin Reloader*. V `Configure Plugin reloader` nastavíme
-`SaveViews` (:num:`#qt-plugin-reloader`) a plugin spustíme. Po
-kliknutí na ikonu `Save Views` se otevře okno totožné s návrhem na
+Po uložení :menuselection:`File --> Save` přejdeme do prostředí QGIS,
+kde použijeme plugin *Plugin Reloader*. V `Choose a plugin to be
+reloaded` nastavíme `SaveViews` (:num:`#qt-plugin-reloader`) a plugin
+spustíme. Tím se aktualizuje podoba našeho pluginu. Po kliknutí na
+ikonu `Save Views` se otevře okno totožné s návrhem na
 :num:`#qtlabel`.
 
 .. _qt-plugin-reloader:
@@ -245,7 +257,7 @@ kliknutí na ikonu `Save Views` se otevře okno totožné s návrhem na
 
 .. _krok5:
 
-5. Implementace funkcionality nastroje a další úpravy
+5. Implementace funkcionality nástroje a další úpravy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Řekněme, že chceme, aby se po spuštění pluginu *Combo Box* automaticky
@@ -297,16 +309,16 @@ potřebovat.
 
    Finální návrh dialogového okna pluginu *Save Views*.
 
-.. note:: Pokud je uživatelské rozhraní definováno více objekty ke
-	  dobré je rozumně pojmenovat. V případě našeho jednoduchého
-	  modulu si vystačíme s předvolenými názvy.
+.. note:: Pokud je uživatelské rozhraní definováno více objekty
+	  (widgety) je vhodné je rozumně pojmenovat. V případě našeho
+	  jednoduchého modulu si vystačíme s předvolenými názvy.
 
 V dalším kroku opět editujeme soubor `save_views.py`. Potřebujeme
 přidat kód, který zabezpečí, aby se po kliknutí na tlačítko ``...``
 otevřel dialog, ve kterém zvolíme adresář pro uložení výsledných
-obrazových souborů `.png` pro každý prvek ve vybrané vektorové vrstvě.
+obrazových souborů pro každý prvek ve vybrané vektorové vrstvě.
 O tuto funkcionalitu se postará metoda
-`select_output_directory`. Přidáme ji například nad metodu `run`
+``select_output_directory()``. Přidáme ji například nad metodu ``run()``
 (:num:`#select-output-dir`).
 
 .. code::
@@ -323,12 +335,10 @@ O tuto funkcionalitu se postará metoda
 
    Metoda, která otevře dialog pro výběr výstupního adresáře.
  
-.. note:: Do seznamu *import* na začátek souboru je nutné přidat
-	  `QFileDialog` jako ``from PyQt4.QtGui import QAction, QIcon,
-	  QFileDialog``.
-
-Následně propojíme metodu `select_output_dir` s tlačítkem *pushButton*
-(tlačítko ``...``) přidáním těchto řádků do metody `__init__`.  Soubor
+Do sekce ``import`` na začátek souboru je nutné přidat `QFileDialog`
+jako ``from PyQt4.QtGui import QAction, QIcon, QFileDialog``. Následně
+propojíme metodu ``select_output_dir()`` s tlačítkem *toolButton*
+(tlačítko ``...``) přidáním těchto řádků do metody ``__init__()``.  Soubor
 uložíme, plugin restartujeme a vyzkoušíme (:num:`#np-skuska-1`).
 
 .. code::
@@ -346,8 +356,8 @@ uložíme, plugin restartujeme a vyzkoušíme (:num:`#np-skuska-1`).
    Načtení adresáře pro grafické výstupy pomocí nového pluginu.
 
 Posledním krokem je změnit to, aby se po kliknutí na tlačítko `Save
-all` opravdu provedlo co chceme. Začneme importem `QColor` a
-`QPixmap`. Potom vyhledáme metodu `run` a najdeme řádek obsahující
+all` opravdu provedlo, co chceme. Začneme importem `QColor` a
+`QPixmap`. Potom vyhledáme metodu ``run()`` a najdeme řádek obsahující
 `pass`. Ten nahradíme následujícím kódem.
 
 .. code::
@@ -390,7 +400,7 @@ all` opravdu provedlo co chceme. Začneme importem `QColor` a
 .. figure:: images/np_run-code.png
    :class: middle
 
-   Doplnění kódu do metody *run*.
+   Doplnění kódu do metody *run()*.
 
 Grafické výstupy po aplikovaní na vrstvu krajů jsou zobrazeny na
 :num:`#np-plugin-result`. Jejich názvy v adresáři závisí na názvu
@@ -408,9 +418,9 @@ obsah výsledného souboru `save_views.py` je uvedený níže.
 .. tip::
 
 	V případě, že chceme změnit ikonu, stačí nový soubor s
-	ikonkou, např.  :num:`#np-new-icon` uložit do adresáře
-	`~/.qgis2/python/plugins/SaveViews` jako soubor `icon.png` a
-	spustit příkazy ``make clean`` a ``make deploy`` v příkazové
+	ikonkou, např.  :num:`#np-new-icon`, uložit do adresáře
+	:file:`~/.qgis2/python/plugins/SaveViews` jako soubor
+	`icon.png` a spustit příkaz ``make clean && make`` v příkazové
 	řádce. Nakonec restartujeme plugin pomocí modulu *Plugin
 	Reloader*.
 
@@ -421,7 +431,7 @@ obsah výsledného souboru `save_views.py` je uvedený níže.
 
 	   Příklad nové ikonky
 
-Soubor ``save_views.py`` je ke stažení také `zde
+Výsledný soubor ``save_views.py`` je ke stažení také `zde
 <../_static/skripty/save_views.py>`_.
            
 .. literalinclude:: ../_static/skripty/save_views.py
@@ -432,14 +442,15 @@ Jiný příklad využití
 ^^^^^^^^^^^^^^^^^^^^
 
 Na obrázku :num:`#np-kn-project` je uveden projekt s katastrálními
-daty. Vyznačené jsou parcely, přes které prochází inženýrské sítě.
+daty. Vyznačené jsou parcely, přes které budou procházet plánované
+inženýrské sítě.
 
 .. _np-kn-project:
 
 .. figure:: images/np_kn_project.png
    :class: middle
 
-   Znázornění parcel, přes které má procházet plánované inženýrské
+   Znázornění parcel přes které májí procházet plánované inženýrské
    sítě.
 
 Použitím pluginu `Save Views` můžeme pro každého vlastníka vyhodnotit
