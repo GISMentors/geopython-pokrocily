@@ -30,6 +30,7 @@
    django/index
    ogc/index
    qgis/index
+   mapscript/index
 
 *******
 Dodatky
