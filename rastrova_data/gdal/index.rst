@@ -17,30 +17,9 @@ Koncept pro rastrová data do značné míry odpovídá přístupu k
   pásmo, ale může jich mít teoreticky neomezeně (např. u
   hyperspektrálních dat).
 
-.. aafig::
-    :aspect: 70
-    :scale: 100
-    :proportional:
-    :textual:
-
-                                               +------------+
-                                               |            |
-                                          +--->+ RasterBand |
-                                         /     |            |
-                                        /      +------------+
-                                       /
-    +--------+         +------------+ /        +------------+
-    |        |         |            |/         |            |
-    | Driver +-------->+ DataSource +--------->+ RasterBand |
-    |        |         |            |\         |            |
-    +--------+         +------------+ \        +------------+
-                                       \       
-                                        \      +------------+
-                                         \     |            |
-                                          +--->+ ...        |
-                                               |            |
-                                               +------------+
-                                       
+.. figure:: images/gdal-schema.png
+   :class: middle
+           
 Mezi další důležité charakteristiky rastrových dat patří prostorové
 rozlišení (velikost pixelu v mapových jednotkách) a jeho hraniční
 souřadnice.

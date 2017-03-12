@@ -23,28 +23,9 @@ případy:
 * **Feature** - geoprvek (vzhledy jevu)
 * **Field, Geometry** - atributy, geometrie
     
-.. aafig::
-    :aspect: 70
-    :scale: 90
-
-                                               +-------+          +---------+
-                                               |       |          |         |
-                                          +--->+ Layer |     +--->+ Feature |
-                                         /     |       |    /     |         |
-                                        /      +-------+   /      +---------+
-                                       /                  /
-    +--------+         +------------+ /        +-------+ /        +---------+
-    |        |         |            |/         |       |/         |         |
-    | Driver +-------->+ DataSource +--------->+ Layer +--------->+ Feature |
-    |        |         |            |\         |       |\         |         |
-    +--------+         +------------+ \        +-------+ \        +---------+
-                                       \                  \
-                                        \      +-------+   \      +---------+
-                                         \     |       |    \     |         |
-                                          +--->+ ...   |     +--->+ ...     |
-                                               |       |          |         |
-                                               +-------+          +---------+
-                                       
+.. figure:: images/ogr-schema.png
+   :class: large
+           
 Popis abstraktního modelu pro vektorová data:
 http://gdal.org/ogr_arch.html
 
