@@ -1,18 +1,40 @@
-Knihovna GDAL
-=============
+*************
+Rastrová data
+*************
 
-Knihovna `GDAL <http://gdal.org>`_ je základním kamenem většiny
-dalších projektů (nejen) open source GIS. Tato knihovna (jejíž
-součástí je i zmíněná knihovna :doc:`OGR
-<../../vektorova_data/ogr/index>`) umožňuje práci s rastrovými a
-vektorovými daty. V současnosti podporuje více než `140 rastrových GIS
+Rastrová data mohou být v porovnání s vektorovými daty často řádově
+objemnější. Tomu je třeba přizpůsobit práci s nimi. Rastrová data jsou
+většinou uspořádané do matice hodnot v číselné podobě.
+
+.. note::
+   
+   Více k rastrové reprezentaci ve :skoleni:`školení Úvod do GIS
+   <open-source-gis/formaty/uvod.html>`.
+
+Pro práci s rastrovými geodaty se "tradičně" používá knihovna `GDAL
+<http://gdal.org>`_. Knihovna GDAL je nízkoúrovňová, přistupuje k
+datům pokud možno efektivním způsobem. Alternativou ke knihovně GDAL
+je `Rasterio <https://github.com/mapbox/rasterio>`_, která je nad
+touto knihovnou postavena. Jedná se o jakousi analogii ke knihovnám
+OGR a Fiona pro práci s vektorovými daty, viz kapitola
+:doc:`../vektorova_data/index`.
+
+.. note::
+
+    Téma *Rasterio* je popsáno ve školení :skoleni:`GeoPython pro
+    začátečníky <geopython-zacatecnik/rastrova_data/rasterio/>`.
+
+V současnosti knihovna GDAL podporuje více než `140 rastrových GIS
 formátů <http://gdal.org/formats_list.html>`_.
+
+Datový model
+------------
 
 Koncept pro rastrová data do značné míry odpovídá přístupu k
 :ref:`vektorovým datům <ogr-model>`:
 
 * **Driver** - ovladač pro čtení a zápis dat
-* **Data Source** - zdroj dat, ze kterého a do kterého se čte a zapisuje
+* **Datasource** - zdroj dat, ze kterého a do kterého se čte a zapisuje
 * **RasterBand** - rastrový kanál. U něterých zdrojů dat je jenom jedno
   pásmo, ale může jich mít teoreticky neomezeně (např. u
   hyperspektrálních dat).
@@ -23,17 +45,18 @@ Koncept pro rastrová data do značné míry odpovídá přístupu k
 Mezi další důležité charakteristiky rastrových dat patří prostorové
 rozlišení (velikost pixelu v mapových jednotkách) a jeho hraniční
 souřadnice.
-       
-Popis abstraktního modelu pro rastrová data:
-http://gdal.org/gdal_datamodel.html
 
-API: http://gdal.org/python/
+Užitečné odkazy:
 
-Cookbook: https://pcjericks.github.io/py-gdalogr-cookbook/raster_layers.html
+* `Popis abstraktního modelu pro rastrová data
+  <http://gdal.org/gdal_datamodel.html>`__
+* `API <http://gdal.org/python/>`__
+* `Cookbook
+  <https://pcjericks.github.io/py-gdalogr-cookbook/raster_layers.html>`__
 
 
-Vytvoření nového souboru z matice hodnot
-----------------------------------------
+Příklad vytvoření nového souboru z matice hodnot
+------------------------------------------------
 
 V následující ukázce vytvoříme nový rastrový soubor a vyplníme ho maticí
 hodnot. Výsledek uložíme do souboru ve formátu :wikipedia-en:`GeoTIFF`.
@@ -200,6 +223,5 @@ Tato funkce vektorová data zrasterizuje a zapíše je do výstupního
 rastrového souboru.
 
 .. figure:: images/chko
-   :class: middle
            
-   Výsledek rasterizace
+   Výsledek rasterizace CHKO.

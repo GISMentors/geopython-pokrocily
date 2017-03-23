@@ -1,5 +1,5 @@
-Práce s databází PostGIS
-========================
+Python a přístup k databázi PostGIS
+===================================
 
 .. note::
 

@@ -1,15 +1,30 @@
-.. _ogr:
+**************
+Vektorová data
+**************
 
-Knihovna OGR
-============
+Pro práci s vektorovými daty se v jazyce Python tradičně používá
+knihovna `GDAL <http://gdal.org>`_ (resp. její čast označovaná jako
+*OGR*). V poslední době však začíná být populární i knihovna `Shapely
+<http://toblerity.org/shapely/>`_ a především `Fiona
+<http://toblerity.org/fiona/>`_. *Fiona* je aplikační rozhraní ke
+knihovně OGR, které více odpovídá standardům a postupům objektového
+jazyka Python. *OGR* je z tohoto pohledu knihovna, pomocí které lze
+provádět v porovnání s Fionou nízkoúrovňovné operace.
 
-**OGR** jako součást `GDAL <http://www.gdal.org>`_ je tradiční
-knihovna pro práci s vektorovými daty.  Knihovna OGR slouží především
-k převodům mezi vektorovými formáty (ale i další práci s vektorovými
-daty, jejich geometrií a atributy). V současné době knihovna podporuje
-`více než 80 formátů <http://gdal.org/ogr_formats.html>`_.
+.. note::
+
+    Téma *Fiona* je popsáno ve školení :skoleni:`GeoPython pro
+    začátečníky <geopython-zacatecnik/vektorova_data/fiona/>`.
+
+Knihovna OGR slouží především k převodům mezi vektorovými formáty (ale
+i další práci s vektorovými daty, jejich geometrií a atributy). V
+současné době knihovna podporuje `více než 80 formátů
+<http://gdal.org/ogr_formats.html>`_.
 
 .. _ogr-model:
+
+Datový model
+------------
 
 Knihovna OGR pracuje s konceptem vrstev (*layers*) uložených v datových
 zdrojích (*data source*). OGR používá pro čtení a zápis dat do
@@ -18,7 +33,7 @@ se může jevit jako těžkopádný, nicméně spolehlivě funguje pro všechny
 případy:
 
 * **Driver** - ovladač pro čtení a zápis dat
-* **Data Source** - datový zdroj (soubor, databáze, protokol, ...)
+* **Datasource** - datový zdroj (soubor, databáze, protokol, ...)
 * **Layer** - datová vrstva (obsah souboru, databázová tabulka, ...)
 * **Feature** - geoprvek (vzhledy jevu)
 * **Field, Geometry** - atributy, geometrie
@@ -34,16 +49,16 @@ programování aplikací)` nad původními funkcemi a třídami z jazyka C++,
 ve kterém je GDAL naprogramovaný. Také z tohoto důvodu se mohou
 některé postupy jevit jako těžkopádné.
 
-Dokumentace: http://www.gdal.org/ogr_apitut.html
+Užitečné odkazy:
 
-API: http://gdal.org/python/
+* `Dokumentace <http://www.gdal.org/ogr_apitut.html>`__
+* `API <http://gdal.org/python/>`__
+* `Cookbook <https://pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html>`__
 
-Cookbook: https://pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html
+Příklad vytvoření obalové zóny
+------------------------------
 
-Obalová zóna
-------------
-
-V tomto příkladu si ukážeme, jak otevřít vektorová data ve formátu
+Na tomto příkladu si ukážeme, jak otevřít vektorová data ve formátu
 Esri Shapefile, načíst datovou vrstvu, zobrazit atributy geoprvků a
 vytvořit obalovou zónu nad načtenými geoprvky.
 
@@ -113,12 +128,16 @@ ohraničujícího obdélíku a centroidu polygonu):
     >>> geom.Intersects(buff)
     True
 
+Příklad vytvoření nové vrstvy
+-----------------------------
+
 Následující příklad ukazuje přístup k vektorovým datům *od A do Z*,
 tedy vytvoření nové datové vrstvy, nastavení metadat, vytvoření a
 zápis nového geoprvku, uložení změn do souboru. To celé by šlo vykonat
-pomocí výše zmíněné knihovny :ref:`Fiona <fiona>` několikanásobně
-jednodušeji. OGR přistupuje k datům na nižší úrovni, což může být
-někdy výhodnější.
+pomocí výše zmíněné knihovny *Fiona*, viz školení :skoleni:`GeoPython
+pro začátečníky <geopython-zacatecnik/vektorova_data/fiona>`,
+několikanásobně jednodušeji. OGR přistupuje k datům na nižší úrovni,
+což může být někdy výhodnější.
 
 .. code-block:: python
 
@@ -128,9 +147,6 @@ někdy výhodnější.
     >>> ds = drv.CreateDataSource('/tmp/out.gml')
     >>> srs = osr.SpatialReference()
     >>> srs.ImportFromEPSG(5514)
-    >>> srs.ExportToProj4()
-    '+proj=krovak +lat_0=49.5 +lon_0=24.83333333333333 +alpha=30.28813972222222 +k=0.9999 +x_0=0 +y_0=0
-    +ellps=bessel +towgs84=...
     >>> layer = ds.CreateLayer('out.gml', srs, ogr.wkbLineString)
 
     >>> # Vytvoření nového atributu 'Nazev' a 'Kod'
@@ -174,8 +190,4 @@ Výsledek zkontrolujeme:
 ..     >>> sjtsk = pyproj.Proj("+init=epsg:5514")
 ..     >>> wgs = pyproj.Proj("+init=epsg:4326")
 .. 
-
-
-
-
 

@@ -24,8 +24,7 @@
 .. toctree::
    :maxdepth: 2
 
-   vektorova_data/index
-   rastrova_data/index
+   gdal/index
    postgis/index
    django/index
    ogc/index
