@@ -9,37 +9,7 @@ následujících tříd:
 * **Class**
 * **Style**
 
-  .. aafig::
-    :aspect: 70
-    :scale: 100
-
-                                +-------+
-                                | Map   |
-                                +---+---+
-                                   / \
-                                  /   \
-                                 /     \
-                                /       \
-                               /         \
-                         +----+--+    +---+---+    +-------+
-                         | Layer |    | Layer |    | ...   |
-                         +---+---+    +-------+    +-------+
-                            / \
-                           /   \
-                          /     \
-                         /       \
-                        /         \
-                  +----+--+    +---+---+    +-------+
-                  | Class |    | Class |    | ...   |
-                  +---+---+    +-------+    +-------+
-                     / \
-                    /   \
-                   /     \
-                  /       \
-                 /         \
-            +---+---+   +---+---+   +-------+
-            | Style |   | Style |   | ...   |
-            +-------+   +-------+   +-------+
+.. figure:: images/mapscript-schema.png
 
 Další informace: http://mapserver.org/mapscript/python.html
             
