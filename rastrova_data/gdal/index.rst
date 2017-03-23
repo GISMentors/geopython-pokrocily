@@ -5,7 +5,7 @@ Knihovna `GDAL <http://gdal.org>`_ je základním kamenem většiny
 dalších projektů (nejen) open source GIS. Tato knihovna (jejíž
 součástí je i zmíněná knihovna :doc:`OGR
 <../../vektorova_data/ogr/index>`) umožňuje práci s rastrovými a
-vektorovými daty. V současnosti podporuje více než `130 rastrových GIS
+vektorovými daty. V současnosti podporuje více než `140 rastrových GIS
 formátů <http://gdal.org/formats_list.html>`_.
 
 Koncept pro rastrová data do značné míry odpovídá přístupu k
