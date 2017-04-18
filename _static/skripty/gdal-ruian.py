@@ -7,7 +7,7 @@ tol = 100
 # kod zajmove obce
 obec = 505528
 
-# posledni datum v mesici (k tomuto dni jsou publikovana stavova data
+# posledni datum v mesici (k tomuto dni jsou publikovana stavova data)
 today = datetime.date.today()
 if today.month == 12:
 	day = today.replace(day=31)
@@ -19,7 +19,7 @@ url='http://vdp.cuzk.cz/vymenny_format/soucasna/{}_OB_{}_UKSH.xml.gz'.format(dat
 
 # otevrit vstupni datasource (RUIAN)
 ds = ogr.Open('/vsicurl/' + url)
-# nalezt zajmovou vrstvu parcel
+# nacist vrstvu parcel
 layer = ds.GetLayerByName('Parcely')
 
 # vytvorit vystupni datasource (Shapefile - parcely)
