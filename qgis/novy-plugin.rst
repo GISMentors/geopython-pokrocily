@@ -117,7 +117,7 @@ Implementace funkcionality pluginu v rámci Python kódu
 
 Po spuštění zásuvného modulu pro tvorbu pluginů se objeví dialogové
 okno, kde zadáme základní údaje o našem novém nástroji,
-viz. :num:`#plugin-builder`.  Na další stránce průvodce vyplníme
+viz. :numref:`plugin-builder`.  Na další stránce průvodce vyplníme
 podrobné informace o našem nástroji (*About*). V třetí části vybereme
 šablonu uživatelského prostředí, v našem případě `Tool button with
 dialog`, zadáme text, který se bude zobrazovat v menu. Nakonec
@@ -135,7 +135,7 @@ kódy, označit nástroj jako experimentální a podobně.
    Dialogové okno zásuvného modulu na tvorbu pluginů.
 
 Následně se objeví okno, kde je potřebné zadat cestu do kterého
-adresář s nástrojem uložíme (:num:`#plugin-dir`). Obvykle to je
+adresář s nástrojem uložíme (:numref:`plugin-dir`). Obvykle to je
 :file:`.qgis2/python/plugins` umístěný v domovském adresáři uživatele. Jeho
 umístění se liší v závislosti na platformě.
 
@@ -170,7 +170,7 @@ Po restartu QGISu by měl být v sekci :menuselection:`Zásuvné moduly
 --> Spravovat a instalovat zásuvné moduly` viditelný i plugin *Save
 Views*. Zaškrtnutím |box_yes| se objeví jeho ikona |npicon| v hlavní
 liště tak jako jsme zadali, tj. v sekci `Vector`.
-(:num:`#plugin-menu`).
+(:numref:`plugin-menu`).
 
 .. _plugin-menu:
 
@@ -180,7 +180,7 @@ liště tak jako jsme zadali, tj. v sekci `Vector`.
    Nový plugin dostupný pod položkou *Vector*.
 
 Spuštěním otevřeme dialog nástroje, který obsahuje tlačítka ``Cancel``
-a ``OK`` (:num:`#plugin-dlg`).
+a ``OK`` (:numref:`plugin-dlg`).
 
 .. _plugin-dlg:
 
@@ -196,7 +196,7 @@ a ``OK`` (:num:`#plugin-dlg`).
    vhodné si vytvořit testovací sadu.
 
 Vytvoříme si jednoduchý projekt v QGISu, který bude obsahovat několik
-vektorových vrstev. Na :num:`#np-project` jsou zobrazeny například
+vektorových vrstev. Na :numref:`np-project` jsou zobrazeny například
 požární stanice, železnice, kraje, velkoplošné území a státní
 hranice České republiky.
 
@@ -216,7 +216,7 @@ Vzhled a elementy dialogového okna pluginu budeme upravovat v programu
 *Qt Creator / Designer*. V hlavní liště zvolíme :menuselection:`File
 --> Open File or Project` a otevřeme soubor s příponou `*.ui`. V našem
 případě `save_views_dialog_base.ui`, který najdeme v adresáři
-vytvořeného pluginu. Na :num:`#qtcreator` je znázorněné prozatím
+vytvořeného pluginu. Na :numref:`qtcreator` je znázorněné prozatím
 prázdné okno s objekty (tzv. widgety) `SaveViewsDialogBase` a
 `button_box`. Pomocí metody `drag-and-drop` je možné z levého panelu přidávat
 další objekty a jejich názvy a vlastnosti měnit v pravé části okna
@@ -232,7 +232,7 @@ aplikace *Qt Creator / Designer*.
 První dva objekty (widgety), které přidáme budou tzv. *Combo Box* z
 kategorie *Input Widgets* a *Label* z kategorie *Display
 Widgets*. V pravém panelu předvolený text objektu *label* změníme na
-`Select a layer` (:num:`#qtlabel`).
+`Select a layer` (:numref:`qtlabel`).
 
 .. _qtlabel:
 
@@ -243,10 +243,10 @@ Widgets*. V pravém panelu předvolený text objektu *label* změníme na
 
 Po uložení :menuselection:`File --> Save` přejdeme do prostředí QGIS,
 kde použijeme plugin *Plugin Reloader*. V `Choose a plugin to be
-reloaded` nastavíme `SaveViews` (:num:`#qt-plugin-reloader`) a plugin
+reloaded` nastavíme `SaveViews` (:numref:`qt-plugin-reloader`) a plugin
 spustíme. Tím se aktualizuje podoba našeho pluginu. Po kliknutí na
 ikonu `Save Views` se otevře okno totožné s návrhem na
-:num:`#qtlabel`.
+:numref:`qtlabel`.
 
 .. _qt-plugin-reloader:
 
@@ -264,7 +264,8 @@ ikonu `Save Views` se otevře okno totožné s návrhem na
 naplnil vektorovými vrstvami aktuálního projektu. Hlavním souborem,
 který se stará o logiku jednotlivých objektů, je v našem případě
 `save_views.py`. Otevřeme jej v textovém editoru a najdeme metodu
-`run`.  Tato metoda se spouští při každém startu pluginu. Do jejího těla (:num:`#np-run-method`) umístíme následující kód.
+`run`. Tato metoda se spouští při každém startu pluginu. Do jejího
+těla (:numref:`np-run-method`) umístíme následující kód.
 
 .. code::
 
@@ -284,7 +285,7 @@ který se stará o logiku jednotlivých objektů, je v našem případě
    Editace kódu v jazyku Python s cílem naplnit *Combo Box*
    vektorovými vrstvami.
 
-Na :num:`#np-cb-filled` je vidět, že po restartu a novém spuštění
+Na :numref:`np-cb-filled` je vidět, že po restartu a novém spuštění
 *Save Views* se změny úspěšně projeví.
 
 .. _np-cb-filled:
@@ -299,7 +300,7 @@ funkcionalitu. Kromě popisu `Select output directory` půjde o objekty
 `Line Edit` a `Tool Button`.  Pro `button_box` ve vlastnostech změníme
 tlačítko ``OK`` na ``Save All``, nastavíme přiměřené rozměry pro každý
 element a upravený soubor `*.ui` uložíme.  Důležité jsou názvy
-jednotlivých objektů, viz. :num:`#np-final-dlg`, budeme je ještě
+jednotlivých objektů, viz. :numref:`np-final-dlg`, budeme je ještě
 potřebovat.
 
 .. _np-final-dlg:
@@ -319,7 +320,7 @@ otevřel dialog, ve kterém zvolíme adresář pro uložení výsledných
 obrazových souborů pro každý prvek ve vybrané vektorové vrstvě.
 O tuto funkcionalitu se postará metoda
 ``select_output_directory()``. Přidáme ji například nad metodu ``run()``
-(:num:`#select-output-dir`).
+(:numref:`select-output-dir`).
 
 .. code::
 
@@ -339,7 +340,7 @@ Do sekce ``import`` na začátek souboru je nutné přidat `QFileDialog`
 jako ``from PyQt4.QtGui import QAction, QIcon, QFileDialog``. Následně
 propojíme metodu ``select_output_dir()`` s tlačítkem *toolButton*
 (tlačítko ``...``) přidáním těchto řádků do metody ``__init__()``.  Soubor
-uložíme, plugin restartujeme a vyzkoušíme (:num:`#np-skuska-1`).
+uložíme, plugin restartujeme a vyzkoušíme (:numref:`np-skuska-1`).
 
 .. code::
 
@@ -402,7 +403,7 @@ volání této funkce.
    Doplnění kódu do metody *run()*.
 
 Grafické výstupy po aplikovaní na vrstvu krajů jsou zobrazeny na
-:num:`#np-plugin-result`. Jejich názvy v adresáři závisí na názvu
+:numref:`np-plugin-result`. Jejich názvy v adresáři závisí na názvu
 konkrétní vektorové vrstvy. Liší se pouze pořadovým číslem. Kompletní
 obsah výsledného souboru `save_views.py` je uvedený níže.
 
@@ -417,7 +418,7 @@ obsah výsledného souboru `save_views.py` je uvedený níže.
 .. tip::
 
 	V případě, že chceme změnit ikonu, stačí nový soubor s
-	ikonkou, např.  :num:`#np-new-icon`, uložit do adresáře
+	ikonkou, např.  :numref:`np-new-icon`, uložit do adresáře
 	:file:`~/.qgis2/python/plugins/SaveViews` jako soubor
 	`icon.png` a spustit příkaz ``make clean && make`` v příkazové
 	řádce. Nakonec restartujeme plugin pomocí modulu *Plugin
@@ -440,7 +441,7 @@ Výsledný soubor ``save_views.py`` je ke stažení také `zde
 Jiný příklad využití
 ^^^^^^^^^^^^^^^^^^^^
 
-Na obrázku :num:`#np-kn-project` je uveden projekt s katastrálními
+Na obrázku :numref:`np-kn-project` je uveden projekt s katastrálními
 daty. Vyznačené jsou parcely, přes které budou procházet plánované
 inženýrské sítě.
 
@@ -454,7 +455,7 @@ inženýrské sítě.
 
 Použitím pluginu `Save Views` můžeme pro každého vlastníka vyhodnotit
 grafické znázornění jeho parcely, na které bude zapsané věcné břemeno
-(:num:`#np-kn-project-views`).
+(:numref:`np-kn-project-views`).
 
 .. _np-kn-project-views:
 
