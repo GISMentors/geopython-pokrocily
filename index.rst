@@ -24,7 +24,6 @@
 .. toctree::
    :maxdepth: 2
 
-   gdal/index
    postgis/index
    django/index
    ogc/index
