@@ -7,33 +7,40 @@
 Vytvoření zásuvného modulu
 --------------------------
 
-Zásuvné moduly, tzv. :wikipedia-en:`pluginy
-<Plug-in_(computing)>` představují
-doplňkové nástroje. Jejich úlohou je rozšiřovat funkčnost a širokou
-škálu použití QGIS. Úvod do této problematiky je součástí
+Zásuvné moduly, tzv. :wikipedia-en:`pluginy <Plug-in_(computing)>`
+představují doplňkové nástroje. Jejich úlohou je rozšiřovat funkčnost
+a širokou škálu použití QGIS. Úvod do této problematiky je součástí
 :skoleni:`školení QGIS pro začátečníky
 <qgis-zacatecnik/ruzne/qgis_pluginy.html>`, kde se kromě jiného píše,
 že v současnosti existuje pro QGIS více než 300 zásuvných modulů
 napsaných v programovacím jazyku :wikipedia:`Python` či
 :wikipedia:`C++`.
 
-V mnohých případech však může nastat situace, kdy žádný z
-existujících zásuvných modulů nesplňuje funkcionalitu jakou bychom
-právě potřebovali.  Úroveň rozšiřovaní funkcionality QGIS je různorodá. Za
+V mnohých případech však může nastat situace, kdy žádný z existujících
+zásuvných modulů nesplňuje funkcionalitu jakou bychom právě
+potřebovali. Úroveň rozšiřovaní funkcionality QGIS je různorodá. Za
 pomoci jazyka Python může jít o přidání jednoduchého tlačítka až po
 tvorbu sofistikovaných nástrojů.
 
-V následující části načrtneme návod jak si vlastní plugin vytvořit a
-postup následně odzkoušíme na jednoduchém reálném příkladě. Vytvoříme
-zásuvný modul s názvem *Save Views*, který exportuje grafický výstup
-ve formě obrázků ve formátu PNG pro každý prvek ve vybrané vektorové
-vrstvě do zvoleného výstupního adresáře.
+V následující části načrtneme návod, jak si vlastní plugin
+vytvořit. Postup následně odzkoušíme na jednoduchém reálném
+příkladu. Vytvoříme zásuvný modul s názvem *Save Views*, který
+exportuje grafický výstup ve formě obrázků ve formátu PNG pro každý
+prvek ve vybrané vektorové vrstvě do zvoleného výstupního adresáře.
 
 **Užitečné odkazy**
 
 * `PyQGIS Developer Cookbook <http://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook>`_
 * `QGIS API <http://qgis.org/api>`_
 
+.. important:: QGIS verze 2 a 3 se významně liší, a to nejen z
+   uživatelského pohledu, ale i tvorby pluginů. QGIS API
+   verze 3 není s předcházející verzí zpětně
+   kompatibilní. Obsahuje řadu změn, viz `Backwards
+   Incompatible Changes
+   <https://qgis.org/api/api_break.html>`__. Tento návod
+   je psán pro verzi QGIS 3.
+   
 Potřebné nástroje
 =================
 
