@@ -7,10 +7,8 @@
 .. |plugin-reloader| image:: ../qgis/images/plugin-reloader-icon.png
    :width: 1.5em
 
-
-============================
  Vytvoření zásuvného modulu
-============================
+===========================
 
 Zásuvné moduly, tzv. :wikipedia-en:`pluginy <Plug-in_(computing)>`
 představují doplňkové nástroje. Jejich úlohou je rozšiřovat funkčnost
@@ -401,8 +399,8 @@ vidět, že se změny úspěšně projevily (:numref:`np-cb-filled`).
       :class: middle
 
 .. tip:: Namísto obecného objektu *Combo Box* by bylo možné použít
-   specifický widget QGISu, a to ?. Využití tohoto specifického
-   widgetu by nám ušetřilo pár řádek kódu.
+   specifický widget QGISu, a to ``QgsMapLayerComboBox``. Využití
+   tohoto specifického widgetu by nám ušetřilo pár řádek kódu.
 
    .. todo:: doplnit nazev tridy
              
