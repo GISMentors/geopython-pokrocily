@@ -8,29 +8,30 @@
    :width: 1.5em
 
 
-Vytvoření zásuvného modulu
---------------------------
+============================
+ Vytvoření zásuvného modulu
+============================
 
 Zásuvné moduly, tzv. :wikipedia-en:`pluginy <Plug-in_(computing)>`
 představují doplňkové nástroje. Jejich úlohou je rozšiřovat funkčnost
-a širokou škálu použití QGIS. Úvod do této problematiky je součástí
-:skoleni:`školení QGIS pro začátečníky
-<qgis-zacatecnik/ruzne/qgis_pluginy.html>`, kde se kromě jiného píše,
-že v současnosti existuje pro QGIS více než 300 zásuvných modulů
-napsaných v programovacím jazyku :wikipedia:`Python` či
-:wikipedia:`C++`.
+a širokou škálu použití prostředí QGIS. Úvod do této problematiky je
+součástí :skoleni:`školení QGIS pro začátečníky
+<qgis-zacatecnik/ruzne/qgis_pluginy.html>`.
 
 V mnohých případech však může nastat situace, kdy žádný z existujících
 zásuvných modulů nesplňuje funkcionalitu jakou bychom právě
 potřebovali. Úroveň rozšiřovaní funkcionality QGIS je různorodá. Za
 pomoci jazyka Python může jít o přidání jednoduchého tlačítka až po
-tvorbu sofistikovaných nástrojů.
+tvorbu sofistikovaných nástrojů. Kromě jazyka :wikipedia:`Python` lze
+psát zásuvné moduly i v jazyku, ve kterém je napsán samotný QGIS, a to
+:wikipedia:`C++`. To ale není úplně běžné.
 
 V následující části načrtneme návod, jak si vlastní plugin
-vytvořit. Postup následně odzkoušíme na jednoduchém reálném
-příkladu. Vytvoříme zásuvný modul s názvem *Save Views*, který
-exportuje grafický výstup ve formě obrázků ve formátu PNG pro každý
-prvek ve vybrané vektorové vrstvě do zvoleného výstupního adresáře.
+vytvořit. Použijeme výše uvedený programovací jazyk Python. Postup
+následně odzkoušíme na jednoduchém reálném příkladu. Vytvoříme zásuvný
+modul s názvem *Save Views*, který exportuje grafický výstup ve formě
+obrázků ve formátu PNG pro každý prvek ve vybrané vektorové vrstvě do
+zvoleného výstupního adresáře.
 
 **Užitečné odkazy**
 
@@ -48,42 +49,39 @@ prvek ve vybrané vektorové vrstvě do zvoleného výstupního adresáře.
 Potřebné nástroje
 =================
 
-I. Qt Creator
-^^^^^^^^^^^^^
+I. Qt Designer
+--------------
 
-Pro tvorbu nového pluginu budeme potřebovat :wikipedia-en:`Qt
-Creator`, což je aplikace vývojového frameworku s názvem
-:wikipedia:`Qt <Qt (knihovna)>`.  Tento nástroj, resp. jeho součást
-*Qt Designer*, využijeme pro tvorbu uživatelského rozhraní nového
-modulu.
+Pro tvorbu nového pluginu budeme potřebovat *Qt Designer*, což je
+aplikace vývojového frameworku :wikipedia:`Qt <Qt (knihovna)>`.  Tento
+nástroj využijeme pro tvorbu uživatelského rozhraní nového modulu.
 
-.. todo:: doplnit postup instalace pod Windows
-
-.. note:: Způsob instalace se v tomto případě liší podle platformy. V
-   případě Ubuntu/Debian je Qt Designer součástí balíčku
-   *qttools5-dev-tools*.
+.. note:: Způsob instalace Qt Designer se liší podle platformy. Na
+   Windows je Qt Designer součástí instalace samotného
+   QGISu. Doporučený postup je použít instalátor `OSGeo4W
+   <http://trac.osgeo.org/osgeo4w/>`__, vybrat volbu *Express Desktop*
+   a nainstalovat balík *QGIS*. Qt Designer spustíme přes volbu *Qt
+   Designer with QGIS custom widgets*. V případě Ubuntu/Debian je Qt
+   Designer součástí balíčku *qttools5-dev-tools*.
    
 II. Python rozhraní pro Qt
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
 
 Vzhledem k tomu, že budeme vyvíjet plugin v programovacím jazyku
 Python, musíme nainstalovat Python rozhraní (Python
 :wikipedia-en:`bindings <Language binding>`) pro Qt (verze 5). Pro
-tvorbu zásuvných modulů je potřeba ``pyrcc5``.
+tvorbu zásuvných modulů je potřeba také nástroj ``pyrcc5``.
 
-.. note:: Způsob instalace se v tomto případě liší podle platformy.
-          Na Windows je možné stáhnout instalátor `OSGeo4W
-          <http://trac.osgeo.org/osgeo4w/>`_, vybrat volbu *Express
-          Desktop* a nainstalovat balík *QGIS*. Ten obsahuje vše
-          potřebné. Po instalaci je nástroj ``pyrcc5`` dostupný v
-          rámci *OSGeo4W Shell*.  Na Mac OS je potřeba nainstalovat
-          správce balíčků `Homebrew <http://brew.sh>`_ a doinstalovat
-          balíček *PyQt*.  V případě Linuxu (Ubuntu/Debian) jde o
-          balíček *pyqt5-dev-tools*. V Ubuntu jej např. nainstalujeme
-          příkazem ``sudo apt-get install pyqt5-dev-tools``.
+.. note:: Na Windows obsahuje instalátor OSGeo4W vše potřebné. Po
+   instalaci je nástroj ``pyrcc5`` dostupný v rámci *OSGeo4W Shell*.
+   Na Mac OS je potřeba nainstalovat správce balíčků `Homebrew
+   <http://brew.sh>`_ a doinstalovat balíček *PyQt*.  V případě Linuxu
+   (Ubuntu/Debian) jde o balíček *pyqt5-dev-tools*. V Ubuntu jej
+   např. nainstalujeme příkazem ``sudo apt-get install
+   pyqt5-dev-tools``.
 
 III. Textový editor
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 Vhodný textový editor anebo integrované vývojové prostředí
 (:wikipedia:`IDE <Vývojové prostředí>`) jsou pro psaní zdrojového kódu
@@ -95,22 +93,22 @@ Kate, gedit*, prostředí *Spyder* či *PyCharm* a podobně.
    QGISu. Pro dlouhodnou práci tento editor ale vhodný není.
           
 IV. Zásuvný modul Plugin Builder
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------
 
-Tento velmi užitečný zásuvný modul do QGISu nám pomůže vytvořit
-všechny potřebné soubory a standardní podobu kódu pro budoucí
+Tento velmi užitečný zásuvný modul QGISu nám pomůže vytvořit všechny
+potřebné soubory a standardní podobu kódu pro budoucí
 plugin. Nainstalujeme jej klasickým způsobem pomocí správce zásuvných
 modulů v QGISu, viz. :skoleni:`školení QGIS pro začátečníky
 <qgis-zacatecnik/ruzne/qgis_pluginy.html>`.
 
 .. figure:: images/plugin-builder.png
 
-   Instalace zásubvného modulu Plugin Builder.
+   Instalace zásuvného modulu Plugin Builder.
 
-V. Zásuvný modul Reloader plugin
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+V. Zásuvný modul Plugin Reloader
+--------------------------------
    
-Díky tomuto pluginu nemusíme při každé změně kódu restartovat
+Díky tomuto pluginu nemusíme při každé změně našeho kódu restartovat
 QGIS. Změny se projeví ihned po jeho spuštění. Nainstalujeme jej
 klasickým způsobem pomocí správce zásuvných modulů v QGISu (pro jeho
 instalaci je potřeba povolit *experimentální* moduly v nastavení
@@ -118,7 +116,7 @@ správce).
 
 .. figure:: images/plugin-reloader.png
 
-   Instalace zásubvného modulu Plugin Reloader.
+   Instalace zásuvného modulu Plugin Reloader.
 
 Pět základních kroků pro vytvoření pluginu Save Views
 =====================================================
@@ -127,13 +125,13 @@ Pět základních kroků pro vytvoření pluginu Save Views
 Vytvoření šablony nového pluginu pomocí zásuvného modulu *Plugin Builder*
 
 :ref:`2.<krok2>` 
-Kompilace zdrojových kódů spojených s novým pluginem
+Překlad qrc souboru
 
 :ref:`3.<krok3>` 
 Načtení nového pluginu ve správci zásuvných modulů
 
 :ref:`4.<krok4>` 
-Vytvoření uživatelského rozhraní pomocí Qt Creator / Designer
+Vytvoření uživatelského rozhraní pomocí Qt Designer
 
 :ref:`5.<krok5>` 
 Implementace funkcionality pluginu v rámci Python kódu
@@ -141,7 +139,7 @@ Implementace funkcionality pluginu v rámci Python kódu
 .. _krok1:
 
 1. Vytvoření šablony nového pluginu
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------
 
 Po spuštění zásuvného modulu pro tvorbu pluginů |plugin-builder| se
 objeví dialogové okno, kde zadáme základní údaje o našem novém
@@ -195,9 +193,8 @@ kterou položkou v menu náš nový plugin uživatel najde.
    později. Ponecháme prozatím výchozí hodnoty.
 
 Následně se objeví okno, kde je potřebné zadat cestu, ve kterém se
-adresář s vytvořeným pluginem vytvoří (:numref:`plugin-dir`). Zvolíme
-vhodné umístění na vašem disku, v našem případě
-:file:`/opt/qgis_plugins`.
+adresář s vytvořeným pluginem vytvoří. Zvolíme vhodné umístění na
+vašem disku, v našem případě :file:`/opt/qgis_plugins`.
 
 .. figure:: images/plugin-builder-5.png
    :class: small
@@ -217,14 +214,14 @@ Results` obsahující souhrnné informace.
 Na tomto místě najdete jednu podstatnou informaci, a to cestu k
 adresáři, kde vaše instalace QGISu hledá při načítání zásuvné
 moduly. Tato cesta je závislá na platfomě. Pod Linuxem je to typicky
-:file:`$HOME/.local/share/QGIS/QGIS3/profiles/default/python/plugins`.
-
-.. todo:: doplnit Windows
+:file:`$HOME/.local/share/QGIS/QGIS3/profiles/default/python/plugins`. Pod
+Windows
+:file:`%APPDATA%\\Roaming\\QGIS\\QGIS3\\profiles\\default\\python\\plugins`.
 
 .. _krok2:
 
-2. Kompilace
-^^^^^^^^^^^^
+2. Překlad qrc souboru
+----------------------
 
 .. important:: Tento krok provede Plugin Builder automaticky, pokud je
    v systémové cestě dostupný nástroj ``pyrcc5``.
@@ -240,7 +237,7 @@ výše uvedeného ``pyrcc5``.
 .. _krok3:
 
 3. Načtení nového pluginu ve správci zásuvných modulů
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------
 
 K tomu, aby nový plugin QGIS po startu našel, existuje více
 možností. Nejjednoduší variantou je adresář s pluginem překopírovat do
@@ -248,7 +245,7 @@ výchozí cesty zásuvných modulů, viz :ref:`Krok 1 <plugin_dir>`. Lepší
 variantou je definovat v nastavení QGISu (:menuselection:`Nastavení
 --> Možnosti --> Systém`) proměnnou prostředí ``QGIS_PLUGINPATH``
 ukazující na nadřazený adresář vašeho pluginu,
-tj. :file:`/opt/qgis_plugins`. Po *restartu* QGIS bude zobrazovat
+tj. :file:`/opt/qgis_plugins`. Po *restartu* bude QGIS zobrazovat
 všechny pluginy, které do tohoto adresáře v budnoucnu umístíte.
 
 .. figure:: images/qgis-pluginpath.svg
@@ -257,9 +254,9 @@ všechny pluginy, které do tohoto adresáře v budnoucnu umístíte.
 
 Po opětovném startu QGISu by měl být v sekci :menuselection:`Zásuvné
 moduly --> Spravovat a instalovat zásuvné moduly` viditelný i plugin
-*Save Views*. Zaškrtnutím |box_yes| se objeví jeho ikona |npicon| v
-hlavním menu, tak jako jsme zadali, tj. v sekci :menuselection:`Zásuvné
-moduly --> Save Views`.
+*Save Views*. Zaškrtnutím |box_yes| se objeví jeho ikona |npicon| a
+nová položka v hlavním menu, tak jako jsme zadali, tj. v sekci
+:menuselection:`Zásuvné moduly --> Save Views`.
 
 .. figure:: images/save-views-enable.png
 
@@ -294,7 +291,7 @@ Spuštěním |npicon| otevřeme dialog nástroje, který obsahuje popisek
 .. _krok4:
 
 4. Vytvoření uživatelského rozhraní pomocí Qt Designer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------------------
 
 Vzhled a elementy dialogového okna pluginu budeme upravovat v programu
 *Qt Designer*. V hlavní liště zvolíme :menuselection:`File --> Open
@@ -314,7 +311,7 @@ měnit v pravé části okna aplikace *Qt Designer*.
    Dialogové okno vytvářeného pluginu v prostředí aplikace *Qt Designer*.
 
 Nejrpve v pravém panelu změníme předvolený text objektu `label` na
-`Select a layer` (:numref:`qtlabel`).
+``Select a layer`` (:numref:`qtlabel`).
 
 .. _qtlabel:
 
@@ -344,7 +341,7 @@ podoba našeho pluginu.
 .. _qt-plugin-reloader:
 
 .. figure:: images/plugin-reloaded.png
-   :class: small
+   :scale: 75%
 
    Konfigurace zásuvného modulu *Plugin Reloader*.
 
@@ -359,13 +356,13 @@ Po kliknutí na ikonu |npicon| se otevře okno odpovídající návrhu na
 .. _krok5:
 
 5. Implementace funkcionality nástroje a další úpravy
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------
 
 Řekněme, že chceme, aby se po spuštění pluginu *Combo Box* automaticky
 naplnil vektorovými vrstvami aktuálního projektu. Hlavním souborem,
 který se stará o logiku jednotlivých objektů, je v našem případě
 :file:`save_views.py`. Otevřeme jej v textovém editoru a najdeme
-metodu ``run``. Tato metoda se spouští při každém startu pluginu. Na
+metodu ``run()``. Tato metoda se spouští při každém startu pluginu. Na
 její konec umístíme následující kód (:numref:`np-run-method`).
 
 .. code:: python
@@ -449,7 +446,7 @@ vektorové vrstvě. O tuto funkcionalitu se postará nová metoda
             )
             self.dockwidget.lineEdit.setText(self.dirname)
 
-.. note:: ``os.path.expanduser("~")`` nastaví cestu při otevření
+.. tip:: ``os.path.expanduser("~")`` nastaví cestu při otevření
    dialogu na domovský adresář.
 
 .. note:: Kód importující použité třídy jako např. ``from
@@ -501,8 +498,8 @@ Soubor uložíme, plugin znovu načteme a vyzkoušíme
 
    Načtení adresáře pro grafické výstupy pomocí nového pluginu.
 
-Posledním krokem je změnit to, aby se po kliknutí na tlačítko `Save
-all` opravdu provedlo, co chceme. Vytvoříme novou metodu
+Posledním krokem je změnit to, aby se po kliknutí na tlačítko ``Save
+all`` opravdu provedlo, co chceme. Vytvoříme novou metodu
 ``save_views()``, kterou umístíme na konec souboru
 :file:`save_views.py`, viz :numref:`np-run-code`.
 
@@ -555,7 +552,7 @@ Tuto metodu provážeme s tlačítkem ``Save all``.
 .. task:: Opravte chybu, která nastane po stisknutí tlačítka ``Save
    all`` v případě, že není nastaven adresář pro výstupní soubory.
 
-.. task:: Opravte kód tak, aby mohl zadat uživatel výstupní adresář
+.. task:: Upravte kód tak, aby mohl zadat uživatel výstupní adresář
           ručně bez tlačítka ``...``.
    
 Grafické výstupy po aplikovaní na vrstvu krajů jsou zobrazeny na
@@ -564,7 +561,7 @@ konkrétní vektorové vrstvy. Liší se pouze pořadovým číslem.
 
 .. _np-plugin-result:
 
-.. figure:: images/np_plugin_result.png
+.. figure:: images/save-views-result.png
    :class: large
 
    Grafické soubory uložené ve zvoleném adresáři pro vektorovou vrstvu
@@ -574,26 +571,22 @@ konkrétní vektorové vrstvy. Liší se pouze pořadovým číslem.
 
    V případě, že chceme změnit ikonu, stačí nový soubor s ikonkou,
    např.  :numref:`np-new-icon`, uložit do adresáře :file:`save_views`
-   jako soubor `icon.png` a spustit příkaz ``make clean && make`` v
-   příkazové řádce. Nakonec restartujeme plugin pomocí modulu *Plugin
+   jako soubor :file:`icon.png` a spustit příkaz ``make clean && make`` v
+   příkazové řádce. Nakonec znovunačteme plugin pomocí modulu *Plugin
    Reloader*.
 
    .. _np-new-icon:
 
    .. figure:: images/np_new_icon.png
-      :scale: 15%
+      :scale: 8%
 
       Příklad nové ikonky
 
 Výsledný soubor ``save_views.py`` je ke stažení také `zde
 <../_static/skripty/save_views.py>`__.
            
-.. literalinclude:: ../_static/skripty/save_views.py
-   :language: python
-   :linenos:
-           
 Jiný příklad využití
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Na obrázku :numref:`np-kn-project` je uveden projekt s katastrálními
 daty. Vyznačené jsou parcely, přes které budou procházet plánované
