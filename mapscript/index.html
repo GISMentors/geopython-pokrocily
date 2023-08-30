@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>MapScript &#8212; Školení GeoPython pro pokročilé</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gismentors.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="search" title="Vyhledávání" href="../search.html" />
+    <link rel="prev" title="Potřebné nástroje" href="../qgis/novy-plugin.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Školení GeoPython pro pokročilé</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../qgis/novy-plugin.html" title="Potřebné nástroje"
+             accesskey="P">předchozí</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="mapscript">
+<h1>MapScript<a class="headerlink" href="#mapscript" title="Permalink to this heading">¶</a></h1>
+<p>Python rozhraní k <a class="reference external" href="http://www.mapserver.org">MapServeru</a> vychází z
+následujících tříd:</p>
+<ul class="simple">
+<li><p><strong>Map</strong></p></li>
+<li><p><strong>Layer</strong></p></li>
+<li><p><strong>Class</strong></p></li>
+<li><p><strong>Style</strong></p></li>
+</ul>
+<figure class="align-center">
+<img alt="../_images/mapscript-schema.png" src="../_images/mapscript-schema.png" />
+</figure>
+<p>Další informace: <a class="reference external" href="http://mapserver.org/mapscript/python.html">http://mapserver.org/mapscript/python.html</a></p>
+<section id="ukazka">
+<h2>Ukázka<a class="headerlink" href="#ukazka" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mapscript</span><span class="o">,</span> <span class="nn">ogr</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chko</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="s1">&#39;chko.shp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">chko</span><span class="o">.</span><span class="n">GetLayer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">GetExtent</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapobj</span> <span class="o">=</span> <span class="n">mapscript</span><span class="o">.</span><span class="n">mapObj</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapobj</span><span class="o">.</span><span class="n">setSize</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapobj</span><span class="o">.</span><span class="n">setExtent</span><span class="p">(</span><span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">extent</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">extent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">extent</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapobj</span><span class="o">.</span><span class="n">setProjection</span><span class="p">(</span><span class="s2">&quot;+init=epsg:5514&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">mapscript</span><span class="o">.</span><span class="n">layerObj</span><span class="p">(</span><span class="n">mapobj</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">mapscript</span><span class="o">.</span><span class="n">MS_LAYER_POLYGON</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;chko.shp&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">mapscript</span><span class="o">.</span><span class="n">MS_ON</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">setProjection</span><span class="p">(</span><span class="s2">&quot;+init=epsg:5514&quot;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">classobj</span> <span class="o">=</span> <span class="n">mapscript</span><span class="o">.</span><span class="n">classObj</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">styleobj</span> <span class="o">=</span> <span class="n">mapscript</span><span class="o">.</span><span class="n">styleObj</span><span class="p">(</span><span class="n">classobj</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">styleobj</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">mapscript</span><span class="o">.</span><span class="n">colorObj</span><span class="p">(</span><span class="mi">125</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapobj</span><span class="o">.</span><span class="n">outputformat</span><span class="o">.</span><span class="n">imagemode</span> <span class="o">=</span> <span class="n">mapscript</span><span class="o">.</span><span class="n">MS_IMAGEMODE_RGBA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapobj</span><span class="o">.</span><span class="n">outputformat</span><span class="o">.</span><span class="n">transparent</span><span class="o">=</span> <span class="mi">1</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">mapobj</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;out.png&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mapobj</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;out.map&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../postgis/index.html">Python a přístup k databázi PostGIS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../django/index.html">Vývoj webových aplikací ve frameworku Django a GeoDjango</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ogc/index.html">Python a OGC OWS (Open Geospatial Consortium Web Services)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qgis/index.html">Python a QGIS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MapScript</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ukazka">Ukázka</a></li>
+</ul>
+</li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Vyhledávání</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="OK" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../qgis/novy-plugin.html" title="Potřebné nástroje"
+              >předchozí</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015-2023 GISMentors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
